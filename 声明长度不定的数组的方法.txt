@@ -1,0 +1,59 @@
+声明长度不定的数组的方法   （直接声明数组必须确认元素个数）
+详见https://www.cnblogs.com/blogofpw/p/4369609.html
+【方法一】动态声明   动态声明的实质是根据n的值向内存在堆区申请了n*sizeof（int）大小的空间，在数组使用完之后，需要释放这个空间
+一维数组：int num;int *p=new int[num];  想要调用其中数据（比如第一个），可以：cin>>p[0];    最终记得要 delete[]p；
+二维数组：int num;
+int **a = new int*[m];  //首先声明一组指向各行指针
+for(int i = 0;i<m;i++)  { a[i] = new int[num]; }   //再声明各行的每列元素的指针
+同样，使用完要释放空间：for(int i = 0; i<m;i++){delete []a[i];} delete []a;//先释放内部每个数据再释放整个数组a（？）
+最后要注意的一点是，动态声明的二维数组中，a[k]是一个int*类型，是一个指针（记录这个二维数组每行数据的首地址(?)），因此只能使用a[i][j]或*（*（a+i）+j）访问相应的元素，绝对不能使用a[i*n+j]的方式访问。
+
+
+
+1、使用动态内存分配方法
+
+c++申请动态内存：
+
+int arraySize; //定义元素个数
+
+cin>>arraySize; //输入元素个数
+
+int *p; //指针指向一个数组
+
+p =  new int[arraySize]; //动态分配内存
+
+...
+
+delete []p; //最后释放内存空间
+
+c语言申请动态内存：
+
+int arraySize; //定义元素个数
+
+scanf("%d",&arraySize);//输入元素个数
+
+int *p; //指针指向一个数组
+
+p =  (int *)malloc(arraySize *sizeof(int)) //动态分配内存
+
+...
+
+free(p); //最后释放内存空间
+
+2、使用向量vector
+
+Vector是C++STL中提供的向量
+
+向量的大小可以动态改变
+
+向量可以通过下标访问元素
+
+可以通过push_back向向量中添加元素并改变大小
+
+#include <vector>
+
+vector <int> myArray;
+
+//可以根据数据需求用 myArray.push_back(整数);来添加元素（这是vector容器中负责输入数据的函数：push_back(输入的数据)）
+//可以通过下标访问向量元素
+
